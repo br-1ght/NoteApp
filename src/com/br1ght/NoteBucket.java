@@ -3,8 +3,7 @@ package com.br1ght;
 import java.util.*;
 
 public class NoteBucket {
-    private final List<Note> bucket = new ArrayList<>();
-    Scanner inputScanner = new Scanner(System.in);
+    public final List<Note> bucket = new ArrayList<>();
 
     private Note getNote(String noteID) {
         // Retrieve note by note ID
@@ -14,7 +13,7 @@ public class NoteBucket {
                 .orElse(null);
     }
 
-    public String addNote() {
+    public String addNote(Scanner inputScanner) {
         System.out.println("Enter author name: ");
         String author = inputScanner.nextLine();
 
@@ -27,50 +26,33 @@ public class NoteBucket {
 
     public String deleteNote(String noteIDToDelete) {
         Note note = getNote(noteIDToDelete);
-        if (note == null) {
+        if (Validator.noteDoesNotExist(note)) {
             return "Note with ID " + noteIDToDelete + " does not exist.";
         }
         bucket.remove(note);
         return "Note with ID " + noteIDToDelete + " is deleted!";
     }
 
-    public void modifyNote(String noteIDToModify) {
+    public void modifyNote(String noteIDToModify, Scanner inputScanner) {
         Note note = getNote(noteIDToModify);
-        if (note == null) {
+        if (Validator.noteDoesNotExist(note)) {
             System.out.println("Note with ID " + noteIDToModify + " does not exist!");
             return;
         }
 
-        String modifyMenu = """
-                0. Go back
-                1. Modify author
-                2. Modify content""";
-        String modifyChoice;
-
-        do {
-            System.out.println(modifyMenu);
-            System.out.println("Enter choice: ");
-            modifyChoice = inputScanner.nextLine();
-            switch (modifyChoice) {
-                case "1" -> {
-                    System.out.println("Enter new author: ");
-                    String authorToModify = inputScanner.nextLine();
-                    note.setAuthor(authorToModify);
-                    System.out.println("Note's author modified!");
-                }
-                case "2" -> {
-                    System.out.println("Enter new content: ");
-                    String contentToModify = inputScanner.nextLine();
-                    note.setContent(contentToModify);
-                    System.out.println("Note's content modified");
-                }
-            }
-        } while (!modifyChoice.equals("0"));
+        System.out.println("Enter new author (Leave empty if no change): ");
+        String authorToModify = inputScanner.nextLine();
+        if (!authorToModify.equals("")) {
+           note.setAuthor(authorToModify);
+        }
+        System.out.println("Enter new content (Leave empty if no change): ");
+        String contentToModify = inputScanner.nextLine();
+        if (!contentToModify.equals("")) {
+            note.setContent(contentToModify);
+        }
     }
 
-
-    @Override
-    public String toString() {
+    public String viewNotes() {
         if (bucket.isEmpty()) {
             return "There are currently no notes.";
         }

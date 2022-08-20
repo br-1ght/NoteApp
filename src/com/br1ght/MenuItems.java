@@ -7,7 +7,8 @@ public enum MenuItems {
     VIEW("1"),
     CREATE("2"),
     DELETE("3"),
-    UPDATE("4");
+    UPDATE("4"),
+    EXPORT("5");
 
     public final String value;
 

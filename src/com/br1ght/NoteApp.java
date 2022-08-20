@@ -7,11 +7,13 @@ import java.util.Scanner;
 public class NoteApp {
      NoteApp() {
         NoteBucket storedNotes = new NoteBucket();
+        NoteExporter noteExporter = new NoteExporter(storedNotes);
         String menu = """
                 1. View notes
                 2. Create note
                 3. Delete note
                 4. Modify note
+                5. Export notes to Json
                 0. Exit""";
         MenuItems userInput;
 
@@ -26,8 +28,8 @@ public class NoteApp {
             }
 
             switch (userInput) {
-                case VIEW -> System.out.println(storedNotes);
-                case CREATE -> System.out.println(storedNotes.addNote());
+                case VIEW -> System.out.println(storedNotes.viewNotes());
+                case CREATE -> System.out.println(storedNotes.addNote(inputScanner));
                 case DELETE -> {
                     System.out.println("Enter the note ID to delete a note: ");
                     String noteIDToDelete = inputScanner.nextLine();
@@ -36,8 +38,9 @@ public class NoteApp {
                 case UPDATE -> {
                     System.out.println("Enter the note ID to update a note: ");
                     String noteIDToModify = inputScanner.nextLine();
-                    storedNotes.modifyNote(noteIDToModify);
+                    storedNotes.modifyNote(noteIDToModify, inputScanner);
                 }
+                case EXPORT -> noteExporter.exportToJson();
             }
         } while (!Objects.equals(userInput, MenuItems.EXIT));
     }
