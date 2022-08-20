@@ -36,9 +36,31 @@ public class NoteApp {
                     System.out.println(storedNotes.deleteNote(noteIDToDelete));
                 }
                 case UPDATE -> {
+                    if (storedNotes.bucket.isEmpty()) {
+                        System.out.println("Cannot modify when there are no notes!");
+                        continue;
+                    }
                     System.out.println("Enter the note ID to update a note: ");
                     String noteIDToModify = inputScanner.nextLine();
-                    storedNotes.modifyNote(noteIDToModify, inputScanner);
+                    Note chosenNote = storedNotes.getNote(noteIDToModify);
+                    if (Validator.noteDoesNotExist(chosenNote)) {
+                        System.out.println("Note does not exist! Returning to main menu...");
+                        continue;
+                    }
+                    String modifyMenu = """
+                            0. Exit
+                            1. Modify author
+                            2. Modify content""";
+                    String modifyChoice;
+                    do {
+                        System.out.println(modifyMenu);
+                        modifyChoice = inputScanner.nextLine();
+                        switch (modifyChoice) {
+                            case "1" -> storedNotes.modifyAuthor(chosenNote, inputScanner);
+                            case "2" -> storedNotes.modifyContent(chosenNote, inputScanner);
+                        }
+                    } while (!modifyChoice.equals("0"));
+
                 }
                 case EXPORT -> noteExporter.exportToJson();
             }

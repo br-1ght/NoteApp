@@ -5,7 +5,7 @@ import java.util.*;
 public class NoteBucket {
     public final List<Note> bucket = new ArrayList<>();
 
-    private Note getNote(String noteID) {
+    public Note getNote(String noteID) {
         // Retrieve note by note ID
         return bucket.stream()
                 .filter(note -> note.getNoteID().toString().equals(noteID))
@@ -33,22 +33,23 @@ public class NoteBucket {
         return "Note with ID " + noteIDToDelete + " is deleted!";
     }
 
-    public void modifyNote(String noteIDToModify, Scanner inputScanner) {
-        Note note = getNote(noteIDToModify);
-        if (Validator.noteDoesNotExist(note)) {
-            System.out.println("Note with ID " + noteIDToModify + " does not exist!");
-            return;
-        }
-
+    public void modifyAuthor(Note note, Scanner inputScanner) {
         System.out.println("Enter new author (Leave empty if no change): ");
         String authorToModify = inputScanner.nextLine();
         if (!authorToModify.equals("")) {
            note.setAuthor(authorToModify);
+        } else {
+            System.out.println("No changes to author has been applied.");
         }
+    }
+
+    public void modifyContent(Note note, Scanner inputScanner) {
         System.out.println("Enter new content (Leave empty if no change): ");
         String contentToModify = inputScanner.nextLine();
         if (!contentToModify.equals("")) {
             note.setContent(contentToModify);
+        } else {
+            System.out.println("No changes to content has been applied.");
         }
     }
 
