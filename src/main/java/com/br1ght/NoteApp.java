@@ -29,14 +29,24 @@ public class NoteApp {
 
             switch (userInput) {
                 case VIEW -> System.out.println(storedNotes.viewNotes());
-                case CREATE -> System.out.println(storedNotes.addNote(inputScanner));
+                case CREATE ->{
+                    System.out.println("Enter author name: ");
+                    String author = inputScanner.nextLine();
+
+                    System.out.println("Enter content: ");
+                    String content = inputScanner.nextLine();
+
+                    System.out.println(storedNotes.addNote(author, content));
+                }
+
                 case DELETE -> {
                     System.out.println("Enter the note ID to delete a note: ");
                     String noteIDToDelete = inputScanner.nextLine();
                     System.out.println(storedNotes.deleteNote(noteIDToDelete));
                 }
+
                 case UPDATE -> {
-                    if (storedNotes.bucket.isEmpty()) {
+                    if (storedNotes.size() == 0) {
                         System.out.println("Cannot modify when there are no notes!");
                         continue;
                     }
@@ -56,8 +66,16 @@ public class NoteApp {
                         System.out.println(modifyMenu);
                         modifyChoice = inputScanner.nextLine();
                         switch (modifyChoice) {
-                            case "1" -> storedNotes.modifyAuthor(chosenNote, inputScanner);
-                            case "2" -> storedNotes.modifyContent(chosenNote, inputScanner);
+                            case "1" -> {
+                                System.out.println("Enter new author (Leave empty if no change): ");
+                                String authorToModify = inputScanner.nextLine();
+                                System.out.println(storedNotes.modifyAuthor(chosenNote, authorToModify));
+                            }
+                            case "2" ->{
+                                System.out.println("Enter new content (Leave empty if no change): ");
+                                String contentToModify = inputScanner.nextLine();
+                                System.out.println(storedNotes.modifyContent(chosenNote, contentToModify));
+                            }
                         }
                     } while (!modifyChoice.equals("0"));
 
