@@ -11,19 +11,19 @@ class NoteBucketTest {
 
     @BeforeEach
     void init() {
-        noteBucket.bucket.add(new Note("bob", "hello"));
-        noteBucket.bucket.add(new Note("james", "goodbye"));
+        noteBucket.getAllNotes().add(new Note("bob", "hello"));
+        noteBucket.getAllNotes().add(new Note("james", "goodbye"));
     }
 
     @AfterEach
     void destroy() {
-        noteBucket.bucket.clear();
+        noteBucket.getAllNotes().clear();
     }
 
     @Test
     void testGetNoteIfExists() {
         // Get first note's id
-        Note retrievedNote = noteBucket.getNote(noteBucket.bucket.get(0).getNoteID().toString());
+        Note retrievedNote = noteBucket.getNote(noteBucket.getAllNotes().get(0).getNoteID().toString());
         assertNotNull(retrievedNote);
     }
 
@@ -41,7 +41,7 @@ class NoteBucketTest {
 
     @Test
     void testDeleteNote() {
-        String noteIDOfFirstNote = noteBucket.bucket.get(0).getNoteID().toString();
+        String noteIDOfFirstNote = noteBucket.getAllNotes().get(0).getNoteID().toString();
         assertEquals("Note with ID " + noteIDOfFirstNote + " is deleted!", noteBucket.deleteNote(noteIDOfFirstNote));
         assertEquals(1, noteBucket.size());
     }
@@ -55,7 +55,7 @@ class NoteBucketTest {
 
     @Test
     void testModifyAuthor() {
-        Note modifiedNote = noteBucket.bucket.get(0);
+        Note modifiedNote = noteBucket.getAllNotes().get(0);
         assertEquals("Author changed!",
                 noteBucket.modifyAuthor(modifiedNote, "ryan"));
         assertEquals("ryan", modifiedNote.getAuthor());
@@ -63,14 +63,14 @@ class NoteBucketTest {
 
     @Test
     void testModifyAuthorIfEmpty() {
-        Note modifiedNote = noteBucket.bucket.get(0);
+        Note modifiedNote = noteBucket.getAllNotes().get(0);
         assertEquals("No changes to author has been applied.",
                 noteBucket.modifyAuthor(modifiedNote, ""));
     }
 
     @Test
     void testModifyContent() {
-        Note modifiedNote = noteBucket.bucket.get(0);
+        Note modifiedNote = noteBucket.getAllNotes().get(0);
         assertEquals("Content changed!",
                 noteBucket.modifyContent(modifiedNote, "greetings"));
         assertEquals("greetings", modifiedNote.getContent());
@@ -78,7 +78,7 @@ class NoteBucketTest {
 
     @Test
     void testModifyContentIfEmpty() {
-        Note modifiedNote = noteBucket.bucket.get(0);
+        Note modifiedNote = noteBucket.getAllNotes().get(0);
         assertEquals("No changes to content has been applied.",
                 noteBucket.modifyContent(modifiedNote, ""));
     }
@@ -90,7 +90,7 @@ class NoteBucketTest {
 
     @Test
     void testViewNotesIfThereAreNoNotes() {
-        noteBucket.bucket.clear();
+        noteBucket.getAllNotes().clear();
         assertEquals("There are currently no notes.", noteBucket.viewNotes());
     }
 }

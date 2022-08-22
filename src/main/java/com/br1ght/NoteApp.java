@@ -80,7 +80,11 @@ public class NoteApp {
                     } while (!modifyChoice.equals("0"));
 
                 }
-                case EXPORT -> noteExporter.exportToJson();
+                case EXPORT -> {
+                    System.out.println("Enter a custom filename (Leave empty if you want the date as the name): ");
+                    String fileName = inputScanner.nextLine();
+                    System.out.println(noteExporter.exportToJson(fileName));
+                }
             }
         } while (!Objects.equals(userInput, MenuItems.EXIT));
     }

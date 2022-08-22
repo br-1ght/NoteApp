@@ -3,11 +3,13 @@ package com.br1ght;
 import java.util.*;
 
 public class NoteBucket {
-    public final List<Note> bucket = new ArrayList<>();
+    private final List<Note> bucket = new ArrayList<>();
 
     public int size() {
         return bucket.size();
     }
+
+    public List<Note> getAllNotes() { return bucket; }
 
     public Note getNote(String noteID) {
         // Retrieve note by note ID
