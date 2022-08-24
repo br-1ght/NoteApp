@@ -1,4 +1,4 @@
-package com.br1ght;
+package com.br1ght.Models;
 
 import java.util.UUID;
 

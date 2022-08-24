@@ -1,4 +1,6 @@
-package com.br1ght;
+package com.br1ght.Models;
+
+import com.br1ght.Validators.Validator;
 
 import java.util.*;
 
@@ -38,18 +40,16 @@ public class NoteBucket {
         if (!author.equals("")) {
            note.setAuthor(author);
            return "Author changed!";
-        } else {
-            return "No changes to author has been applied.";
         }
+        return "No changes to author has been applied.";
     }
 
     public String modifyContent(Note note, String content) {
         if (!content.equals("")) {
             note.setContent(content);
             return "Content changed!";
-        } else {
-            return "No changes to content has been applied.";
         }
+        return "No changes to content has been applied.";
     }
 
     public String viewNotes() {

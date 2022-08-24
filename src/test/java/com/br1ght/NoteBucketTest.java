@@ -1,5 +1,7 @@
 package com.br1ght;
 
+import com.br1ght.Models.Note;
+import com.br1ght.Models.NoteBucket;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

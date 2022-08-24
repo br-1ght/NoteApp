@@ -1,4 +1,4 @@
-package com.br1ght;
+package com.br1ght.App;
 
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ public enum MenuItems {
     UPDATE("4"),
     EXPORT("5");
 
-    public final String value;
+    private final String value;
 
     MenuItems(String value) {
         this.value = value;
