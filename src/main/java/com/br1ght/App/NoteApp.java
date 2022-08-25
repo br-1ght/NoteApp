@@ -14,6 +14,8 @@ public class NoteApp {
      public NoteApp() {
         NoteBucket storedNotes = new NoteBucket();
         NoteExporter noteExporter = new NoteExporter(storedNotes);
+        Scanner inputScanner = new Scanner(System.in);
+
         String menu = """
                 1. View notes
                 2. Create note
@@ -26,7 +28,6 @@ public class NoteApp {
         do {
             System.out.println(menu);
             System.out.print("Enter choice: ");
-            Scanner inputScanner = new Scanner(System.in);
             userInput = MenuItems.getEnumFromString(inputScanner.nextLine());
             if (userInput == null){
                 System.out.println("Invalid choice!");
@@ -35,6 +36,7 @@ public class NoteApp {
 
             switch (userInput) {
                 case VIEW -> new ViewService(storedNotes).run();
+
                 case CREATE -> new CreateService(storedNotes, inputScanner).run();
 
                 case DELETE -> {
