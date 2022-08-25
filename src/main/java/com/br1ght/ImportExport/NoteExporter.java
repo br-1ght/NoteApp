@@ -60,7 +60,7 @@ public class NoteExporter {
             fileWriter.close();
             return "Export of notes " + fileName + " completed!";
         } catch (IOException e) {
-            return "Unexpected error occurred!";
+            return "Error: Cannot write to " + fileName + "!";
         }
     }
 }
