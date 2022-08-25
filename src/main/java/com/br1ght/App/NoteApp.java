@@ -4,6 +4,7 @@ package com.br1ght.App;
 import com.br1ght.ImportExport.NoteExporter;
 import com.br1ght.Models.Note;
 import com.br1ght.Models.NoteBucket;
+import com.br1ght.Services.*;
 import com.br1ght.Validators.Validator;
 
 import java.util.Objects;
@@ -33,16 +34,8 @@ public class NoteApp {
             }
 
             switch (userInput) {
-                case VIEW -> System.out.println(storedNotes.viewNotes());
-                case CREATE ->{
-                    System.out.print("Enter author name: ");
-                    String author = inputScanner.nextLine();
-
-                    System.out.println("Enter content: ");
-                    String content = inputScanner.nextLine();
-
-                    System.out.println(storedNotes.addNote(author, content));
-                }
+                case VIEW -> new ViewService(storedNotes).run();
+                case CREATE -> new CreateService(storedNotes, inputScanner).run();
 
                 case DELETE -> {
                     if (Validator.noNotesCurrently(storedNotes)) {
@@ -50,9 +43,7 @@ public class NoteApp {
                         continue;
                     }
 
-                    System.out.print("Enter the note ID to delete a note: ");
-                    String noteIDToDelete = inputScanner.nextLine();
-                    System.out.println(storedNotes.deleteNote(noteIDToDelete));
+                    new DeleteService(storedNotes, inputScanner).run();
                 }
 
                 case UPDATE -> {
@@ -70,30 +61,7 @@ public class NoteApp {
                         continue;
                     }
 
-                    String modifyMenu = """
-                            0. Exit
-                            1. Modify author
-                            2. Modify content""";
-                    String modifyChoice;
-
-                    do {
-                        System.out.println(modifyMenu);
-                        modifyChoice = inputScanner.nextLine();
-
-                        switch (modifyChoice) {
-                            case "1" -> {
-                                System.out.print("Enter new author (Leave empty if no change): ");
-                                String authorToModify = inputScanner.nextLine();
-                                System.out.println(storedNotes.modifyAuthor(chosenNote, authorToModify));
-                            }
-
-                            case "2" ->{
-                                System.out.println("Enter new content (Leave empty if no change): ");
-                                String contentToModify = inputScanner.nextLine();
-                                System.out.println(storedNotes.modifyContent(chosenNote, contentToModify));
-                            }
-                        }
-                    } while (!modifyChoice.equals("0"));
+                    new UpdateService(storedNotes, inputScanner, chosenNote).run();
 
                 }
                 case EXPORT -> {
@@ -101,26 +69,8 @@ public class NoteApp {
                         System.out.println("There are currently no notes. Returning to main menu.");
                         continue;
                     }
-                    String exportMenu = """
-                            0. Exit
-                            1. Export to JSON
-                            2. Export to CSV""";
-                    do {
-                        System.out.println(exportMenu);
-                        String exportChoice = inputScanner.nextLine();
 
-                        if (exportChoice.equals("0")) {
-                            break;
-                        }
-
-                        System.out.println("Enter a custom filename (Leave empty if you want the date as the name): ");
-                        String fileName = inputScanner.nextLine();
-                        switch (exportChoice) {
-                            case "1" -> System.out.println(noteExporter.exportToJSON(fileName));
-                            case "2" -> System.out.println(noteExporter.exportToCSV(fileName));
-                        }
-
-                    } while (true);
+                    new ExportService(storedNotes, inputScanner, noteExporter).run();
                 }
             }
         } while (!Objects.equals(userInput, MenuItems.EXIT));
