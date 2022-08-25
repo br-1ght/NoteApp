@@ -24,7 +24,7 @@ public class NoteApp {
 
         do {
             System.out.println(menu);
-            System.out.println("Enter choice: ");
+            System.out.print("Enter choice: ");
             Scanner inputScanner = new Scanner(System.in);
             userInput = MenuItems.getEnumFromString(inputScanner.nextLine());
             if (userInput == null){
@@ -35,7 +35,7 @@ public class NoteApp {
             switch (userInput) {
                 case VIEW -> System.out.println(storedNotes.viewNotes());
                 case CREATE ->{
-                    System.out.println("Enter author name: ");
+                    System.out.print("Enter author name: ");
                     String author = inputScanner.nextLine();
 
                     System.out.println("Enter content: ");
@@ -50,7 +50,7 @@ public class NoteApp {
                         continue;
                     }
 
-                    System.out.println("Enter the note ID to delete a note: ");
+                    System.out.print("Enter the note ID to delete a note: ");
                     String noteIDToDelete = inputScanner.nextLine();
                     System.out.println(storedNotes.deleteNote(noteIDToDelete));
                 }
@@ -61,7 +61,7 @@ public class NoteApp {
                         continue;
                     }
 
-                    System.out.println("Enter the note ID to update a note: ");
+                    System.out.print("Enter the note ID to update a note: ");
                     String noteIDToModify = inputScanner.nextLine();
                     Note chosenNote = storedNotes.getNote(noteIDToModify);
 
@@ -82,7 +82,7 @@ public class NoteApp {
 
                         switch (modifyChoice) {
                             case "1" -> {
-                                System.out.println("Enter new author (Leave empty if no change): ");
+                                System.out.print("Enter new author (Leave empty if no change): ");
                                 String authorToModify = inputScanner.nextLine();
                                 System.out.println(storedNotes.modifyAuthor(chosenNote, authorToModify));
                             }
